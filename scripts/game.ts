@@ -4,7 +4,7 @@ type Hint = {
     correct:number;
     misplaced:number;
 };
-type Game = {
+export type Game = {
     answer: string;
     rules: Hint[];
 }
@@ -30,9 +30,11 @@ const generateRandomNumber = (numDigits: number): string => {
 };
 
 const generateRule = (correct: number, misplaced: number): string => {
-    if (correct > 0) return `${correct} digit(s) are correct and in the right place.`;
-    if (misplaced > 0) return `${misplaced} digit(s) are correct but misplaced.`;
-    return `No digits are correct.`;
+    var hint = "";
+    if (correct > 0) hint += `${correct} digit(s) are correct and in the right place.`;
+    if (correct > 0 && misplaced > 0) hint += " ";
+    if (misplaced > 0) hint += `${misplaced} digit(s) are correct but misplaced.`;
+    return hint === "" ?`No digits are correct.`:hint;
 };
 
 
@@ -54,7 +56,7 @@ const analyzeHint = (targetNumber: string, hintNumber: string) => {
 
     const targetDigits = targetNumber.split('');
     const hintDigits = hintNumber.split('');
-
+    
     // Track correct digits
     targetDigits.forEach((digit, index) => {
         if (digit === hintDigits[index]) correct++;
@@ -130,5 +132,5 @@ export function generateGame(numDigits: number = 3, numHints: number = 5): Game 
 }
 
 
-//console.log(generateGame(7, 8));
+//console.log(generateGame(3, 2));
 
