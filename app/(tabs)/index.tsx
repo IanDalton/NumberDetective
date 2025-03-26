@@ -7,59 +7,22 @@ import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
 import { useRef } from 'react';
 import { useNavigation } from '@react-navigation/native';
-import {Picker} from '@react-native-picker/picker'; 
 
 export default function HomeScreen() {
   const navigation = useNavigation();
   const [digits, setDigits] = useState(4); // Default number of digits
   const [hints, setHints] = useState(3); // Default number of hints
 
-  const handlePlay = () => {
-        navigation.navigate('GameScreen', { digits: 3, hints: 5 });
-  };
+ 
 
   return (
-    <ParallaxScrollView
-      headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
-      headerImage={
-        <Image
-          source={require('@/assets/images/partial-react-logo.png')}
-          style={styles.reactLogo}
-        />
-      }>
-      <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">Number Detective</ThemedText>
-        <HelloWave />
-      </ThemedView>
-      <ThemedView style={styles.inputContainer}>
-        <ThemedText type="subtitle">Select Game Settings:</ThemedText>
-        <View style={styles.pickerContainer}>
-          <ThemedText>Number of Digits:</ThemedText>
-          <Picker
-            selectedValue={digits}
-            onValueChange={(value) => setDigits(value)}
-            style={styles.picker}
-          >
-            {[3, 4, 5, 6].map((num) => (
-              <Picker.Item key={num} label={`${num}`} value={num} />
-            ))}
-          </Picker>
-        </View>
-        <View style={styles.pickerContainer}>
-          <ThemedText>Number of Hints:</ThemedText>
-          <Picker
-            selectedValue={hints}
-            onValueChange={(value) => setHints(value)}
-            style={styles.picker}
-          >
-            {[1, 2, 3, 4, 5].map((num) => (
-              <Picker.Item key={num} label={`${num}`} value={num} />
-            ))}
-          </Picker>
-        </View>
-        <Button title="Play" onPress={handlePlay} />
-      </ThemedView>
-    </ParallaxScrollView>
+    <ThemedView>
+      <ThemedText>Home</ThemedText>
+      <Button
+        title="Start Game"
+        onPress={() => {}}
+      />
+    </ThemedView>
   );
 }
 

@@ -1,18 +1,19 @@
 import { Image, StyleSheet, Platform, TextInput, View, TouchableOpacity, Text, ScrollView, Alert, useColorScheme, Button } from 'react-native';
 import {useEffect, useState} from 'react';
-import { generateGame } from '@/scripts/game';
+import { generateGame, Game } from '@/scripts/game';
 import { HelloWave } from '@/components/HelloWave';
 import ParallaxScrollView from '@/components/ParallaxScrollView';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
 import { useRef } from 'react';
 import { useRoute } from '@react-navigation/native';
+import GameHint from '@/components/GameHint';
 
 
 export default function GameScreen() {
-  const route = useRoute();
-  const { digits, hints } = route.params; // Retrieve parameters from navigation
-  const [game] = useState(() => generateGame(digits, hints)); // Pass parameters to generateGame
+  //const route = useRoute();
+  //const { digits, hints } = route.params; // Retrieve parameters from navigation
+  const [game] = useState(():Game => generateGame(3, 2)); // Pass parameters to generateGame
   const answerLength = game.answer.length;
   const hints = game.rules; // Assuming `game.hints` is an array of hint objects
   const colorScheme = useColorScheme(); // Detect light or dark mode
@@ -60,9 +61,7 @@ export default function GameScreen() {
     }
   };
 
-  const handleHintPress = (hint: { rule: string }) => {
-    Alert.alert('Hint', hint.rule);
-  };
+  
 
   const isDarkMode = colorScheme === 'dark';
 
@@ -121,29 +120,7 @@ export default function GameScreen() {
         </ThemedText>
         <ScrollView>
           {hints.map((hint, index) => (
-            <TouchableOpacity
-              key={index}
-              style={[
-                styles.hintBox,
-                {
-                  borderColor: isDarkMode ? '#FFF' : '#CCC',
-                  backgroundColor: isDarkMode ? '#333' : '#FFF',
-                },
-              ]}
-              onPress={() => handleHintPress(hint)}
-            >
-              <View style={styles.hintTopRight}>
-                <Text style={[styles.hintEmoji, { color: isDarkMode ? '#FFF' : '#000' }]}>
-                  ✅ {hint.correct}
-                </Text>
-                <Text style={[styles.hintEmoji, { color: isDarkMode ? '#FFF' : '#000' }]}>
-                  ❓ {hint.misplaced}
-                </Text>
-              </View>
-              <Text style={[styles.hintNumber, { color: isDarkMode ? '#FFF' : '#000' }]}>
-                {hint.hintNumber}
-              </Text>
-            </TouchableOpacity>
+            GameHint({hint,isDarkMode})
           ))}
         </ScrollView>
       </ThemedView>

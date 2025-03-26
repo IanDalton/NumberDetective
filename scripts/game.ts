@@ -1,4 +1,4 @@
-type Hint = {
+export type Hint = {
     hintNumber: string;
     rule: string;
     correct:number;
