@@ -97,7 +97,7 @@ function validateGame(input) {
     return solutions.length === 1 && solutions[0] === input.answer;
 }
 
-function generateGame(numDigits, numHints) {
+export function generateGame(numDigits, numHints) {
     if (numDigits === undefined) numDigits = 3;
     if (numHints === undefined) numHints = 5;
     var target = generateRandomNumber(numDigits);
@@ -109,6 +109,5 @@ function generateGame(numDigits, numHints) {
     return { answer: target, rules: hints };
 }
 
-// Uncomment to test in browser console
-// console.log(generateGame(3, 2));
+
 
