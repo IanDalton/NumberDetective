@@ -1,8 +1,11 @@
 import { generateGame } from "./game.js";
-import { Card } from "./components/card.js";
-import { AnswerForm } from "./components/answer_form.js";
+import { Card } from "../../components/card.js";
+import { AnswerForm } from "../../components/answer_form.js";
+import { Navbar } from "../../components/navbar.js";
 
 const form = document.getElementById("game-form");
+
+document.querySelector("navbar").innerHTML = Navbar()
 
 if (form) {
     form.addEventListener("submit", (event) => {

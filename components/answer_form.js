@@ -1,3 +1,4 @@
+import { saveScore } from "../core/storage.js";
 export function AnswerForm(answer, numHints) {
     const n = answer.length;
     const form = document.createElement("form");
@@ -56,14 +57,23 @@ export function AnswerForm(answer, numHints) {
         const userAnswer = inputs.map(input => input.value).join('');
         if (userAnswer === answer) {
             const timeTaken = ((Date.now() - startTime) / 1000).toFixed(2);
+            const score = {
+                time: Number(timeTaken),
+                hints: numHints,
+                attempts: attempts,
+                answer: answer,
+                date: new Date().toISOString(),
+                player: undefined
+            };
+            saveScore(score)
             document.body.innerHTML = `
                 <div class="container mt-5">
                     <div class="alert alert-success">
                         <h2>Success!</h2>
-                        <p><strong>Time taken:</strong> ${timeTaken} seconds</p>
-                        <p><strong>Hints used:</strong> ${numHints}</p>
-                        <p><strong>Attempts:</strong> ${attempts}</p>
-                        <p><strong>Answer:</strong> ${answer}</p>
+                        <p><strong>Time taken:</strong> ${score.time} seconds</p>
+                        <p><strong>Hints used:</strong> ${score.hints}</p>
+                        <p><strong>Attempts:</strong> ${score.attempts}</p>
+                        <p><strong>Answer:</strong> ${score.answer}</p>
                     </div>
                 </div>
             `;
@@ -75,7 +85,7 @@ export function AnswerForm(answer, numHints) {
             alert.role = "alert";
             alert.textContent = "Wrong answer, try again!";
             form.insertBefore(alert, button);
-            attempts ++
+            attempts++
             setTimeout(() => {
                 alert.remove();
             }, 5000);
