@@ -1,4 +1,5 @@
-export function AnswerForm(n = 3) {
+export function AnswerForm(answer, numHints) {
+    const n = answer.length;
     const form = document.createElement("form");
     form.id = "answer-form";
     form.className = "mb-3";
@@ -33,23 +34,53 @@ export function AnswerForm(n = 3) {
     button.textContent = "Submit Answer";
     form.appendChild(button);
 
-    inputs.forEach((input, idx) => {
+    // Cambio de input al siguiente
+    inputs.forEach((input, i) => {
         input.addEventListener("input", (e) => {
-            if (e.target.value.length === 1 && idx < inputs.length - 1) {
-                inputs[idx + 1].focus();
+            if (e.target.value.length === 1 && i < inputs.length - 1) {
+                inputs[i + 1].focus();
             }
         });
         input.addEventListener("keydown", (e) => {
-            if (e.key === "Backspace" && !e.target.value && idx > 0) {
-                inputs[idx - 1].focus();
+            if (e.key === "Backspace" && !e.target.value && i > 0) {
+                inputs[i - 1].focus();
             }
         });
     });
 
-    button.addEventListener("click", (event) => {
-        event.preventDefault()
-        console.log("Hola")
-    })
+    var attempts = 0
+    const startTime = Date.now();
+
+    form.addEventListener("submit", (event) => {
+        event.preventDefault();
+        const userAnswer = inputs.map(input => input.value).join('');
+        if (userAnswer === answer) {
+            const timeTaken = ((Date.now() - startTime) / 1000).toFixed(2);
+            document.body.innerHTML = `
+                <div class="container mt-5">
+                    <div class="alert alert-success">
+                        <h2>Success!</h2>
+                        <p><strong>Time taken:</strong> ${timeTaken} seconds</p>
+                        <p><strong>Hints used:</strong> ${numHints}</p>
+                        <p><strong>Attempts:</strong> ${attempts}</p>
+                        <p><strong>Answer:</strong> ${answer}</p>
+                    </div>
+                </div>
+            `;
+        } else {
+            const oldAlert = form.querySelector(".alert-danger");
+            if (oldAlert) oldAlert.remove();
+            const alert = document.createElement("div");
+            alert.className = "alert alert-danger";
+            alert.role = "alert";
+            alert.textContent = "Wrong answer, try again!";
+            form.insertBefore(alert, button);
+            attempts ++
+            setTimeout(() => {
+                alert.remove();
+            }, 5000);
+        }
+    });
 
     return form;
 }

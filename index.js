@@ -29,7 +29,7 @@ if (form) {
             );
         }
         answerDiv.innerHTML = ""
-        answerDiv.appendChild( AnswerForm(game.answer.length))
+        answerDiv.appendChild( AnswerForm(game.answer, game.rules.length))
 
 
     });
