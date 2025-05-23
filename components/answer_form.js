@@ -46,5 +46,10 @@ export function AnswerForm(n = 3) {
         });
     });
 
+    button.addEventListener("click", (event) => {
+        event.preventDefault()
+        console.log("Hola")
+    })
+
     return form;
 }

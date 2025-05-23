@@ -28,6 +28,7 @@ if (form) {
                 ruleObj.rule
             );
         }
+        answerDiv.innerHTML = ""
         answerDiv.appendChild( AnswerForm(game.answer.length))
 
 
