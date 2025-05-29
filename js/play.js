@@ -11,12 +11,28 @@ document.querySelector("game").innerHTML = Game()
 
 const form = document.getElementById("game-form");
 
-
+let timerInterval;
+let secondsElapsed = 0;
+function startTimer() {
+    clearInterval(timerInterval);
+    secondsElapsed = 0;
+    const timerEl = document.getElementById("time");
+    if (timerEl) {
+        timerEl.textContent = "00:00";
+        timerInterval = setInterval(() => {
+            secondsElapsed++;
+            const minutes = String(Math.floor(secondsElapsed / 60)).padStart(2, "0");
+            const seconds = String(secondsElapsed % 60).padStart(2, "0");
+            timerEl.textContent = `${minutes}:${seconds}`;
+        }, 1000);
+    }
+}
 
 if (form) {
     form.addEventListener("submit", (event) => {
         event.preventDefault();
-
+        
+        console.log("aaa2")
         const numbersInput = document.getElementById("numbers");
         const hintsInput = document.getElementById("hints");
         const gameDiv = document.getElementById("game");
@@ -25,9 +41,13 @@ if (form) {
         const numbers = parseInt(numbersInput.value, 10);
         const hints = parseInt(hintsInput.value, 10);
 
+        form.innerHTML = ""
+
 
         let game = generateGame(numbers, hints);
+        
         console.log(game);
+        gameDiv.className = "row justify-content-center" 
         gameDiv.innerHTML = "";
         for (const ruleObj of game.rules) {
             gameDiv.innerHTML += Card(
@@ -39,6 +59,9 @@ if (form) {
         }
         answerDiv.innerHTML = ""
         answerDiv.appendChild( AnswerForm(game.answer, game.rules.length))
+        startTimer()
+        form.innerHTML = ""
+        
 
     });
 }

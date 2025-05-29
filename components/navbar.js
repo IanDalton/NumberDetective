@@ -2,7 +2,6 @@ import { retrieveSortedScores } from "../core/storage.js";
 
 const digits = Object.keys(retrieveSortedScores());
 export const NAVBAR_PAGES = [
-    { name: "Home", href: "index" },
     { name: "Play", href: "play" },
     { name: "Tutorial", href: "tutorial" },
     {
@@ -23,13 +22,13 @@ export function setCurrentPage(page) {
 
 export function Navbar() {
     function isActive(page) {
-        return page === currentPage ? "active" : "";
+        return page === currentPage ? "active btn btn-success " : "nav-link";
     }
 
     return `
-    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+    <nav class="navbar navbar-expand-lg bg-light fixed-top ">
         <div class="container-fluid">
-            <a class="navbar-brand" href="index">Number Detective</a>
+            <a class="navbar-brand text-success fw-bold" href="index">Number Detective</a>
             <button class="navbar-toggler" type="button"
                 data-bs-toggle="collapse"
                 data-bs-target="#navbarNavDropdown"
@@ -43,7 +42,7 @@ export function Navbar() {
         if (page.dropdown) {
             return `
                             <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle ${isActive(page.name)}" href="${page.href}"
+                                <a class=" dropdown-toggle ${isActive(page.name)}" href="${page.href}"
                                     role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                     ${page.name}
                                 </a>
@@ -57,7 +56,7 @@ export function Navbar() {
         } else {
             return `
                             <li class="nav-item">
-                                <a class="nav-link ${isActive(page.name)}" href="${page.href}">${page.name}</a>
+                                <a class=" ${isActive(page.name)} " href="${page.href}">${page.name}</a>
                             </li>
                             `;
         }

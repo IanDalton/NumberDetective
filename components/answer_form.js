@@ -67,8 +67,8 @@ export function AnswerForm(answer, numHints) {
             };
             saveScore(score)
             document.body.innerHTML = `
-                <div class="container mt-5">
-                    <div class="alert alert-success">
+                <div class="container mt-5 ">
+                    <div class="alert alert-success ">
                         <h2>Success!</h2>
                         <p><strong>Time taken:</strong> ${score.time} seconds</p>
                         <p><strong>Hints used:</strong> ${score.hints}</p>

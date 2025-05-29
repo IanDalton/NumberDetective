@@ -1,0 +1,20 @@
+
+game {
+
+            display: flex;
+            min-height: 100vh;
+            margin: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            transition: width 0.4s ease;
+        }
+        
+
+.form-container {
+            background-color: #ffffff;
+            padding: 40px;
+            border-radius: 10px;
+
+            box-shadow: 3px 4px 15px   rgba(41, 41, 41, 0.7);
+
+            max-width: 500px;
+        }
