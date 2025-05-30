@@ -1,5 +1,5 @@
 import { saveScore } from "../core/storage.js";
-export function AnswerForm(answer, numHints) {
+export function AnswerForm(answer, numHints, onVictory) {
     const n = answer.length;
     const form = document.createElement("form");
     form.id = "answer-form";
@@ -57,6 +57,7 @@ export function AnswerForm(answer, numHints) {
         const userAnswer = inputs.map(input => input.value).join('');
         if (userAnswer === answer) {
             const timeTaken = ((Date.now() - startTime) / 1000).toFixed(2);
+            
             const score = {
                 time: Number(timeTaken),
                 hints: numHints,
@@ -65,18 +66,8 @@ export function AnswerForm(answer, numHints) {
                 date: new Date().toISOString(),
                 player: undefined
             };
-            saveScore(score)
-            document.body.innerHTML = `
-                <div class="container mt-5 ">
-                    <div class="alert alert-success ">
-                        <h2>Success!</h2>
-                        <p><strong>Time taken:</strong> ${score.time} seconds</p>
-                        <p><strong>Hints used:</strong> ${score.hints}</p>
-                        <p><strong>Attempts:</strong> ${score.attempts}</p>
-                        <p><strong>Answer:</strong> ${score.answer}</p>
-                    </div>
-                </div>
-            `;
+            
+            if (typeof onVictory === "function") onVictory(score);
         } else {
             const oldAlert = form.querySelector(".alert-danger");
             if (oldAlert) oldAlert.remove();

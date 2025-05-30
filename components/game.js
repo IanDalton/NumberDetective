@@ -3,7 +3,7 @@ export function Game() {
     <div class="d-flex justify-content-center align-items-center min-vh-100">
         <div class="card shadow-lg rounded-4">
             <div class="card-header bg-success text-white fs-5 fw-bold w-100 rounded-top-4 d-flex justify-content-between align-items-center" style="font-size:1.5rem;">
-                <div>New game</div>
+                <div id="card-header">New game</div>
                 <div id="time"></div>
             </div>
             <div class="card-body py-4 px-5">

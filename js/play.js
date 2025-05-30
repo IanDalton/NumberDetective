@@ -1,8 +1,10 @@
-import { Navbar,setCurrentPage } from "../components/navbar.js";
+import { Navbar, setCurrentPage } from "../components/navbar.js";
 import { Game } from "../components/game.js";
 import { generateGame } from "../core/game.js";
 import { AnswerForm } from "../components/answer_form.js";
 import { Card } from "../components/card.js";
+import { ScoreSubmissionForm } from "../components/victory_screen.js";
+import { saveScore } from "../core/storage.js";
 setCurrentPage("Play")
 
 document.querySelector("navbar").innerHTML = Navbar()
@@ -13,25 +15,31 @@ const form = document.getElementById("game-form");
 
 let timerInterval;
 let secondsElapsed = 0;
+const timer = document.getElementById("time");
+
+function stopTimer() {
+    clearInterval(timerInterval);
+}
 function startTimer() {
     clearInterval(timerInterval);
     secondsElapsed = 0;
-    const timerEl = document.getElementById("time");
-    if (timerEl) {
-        timerEl.textContent = "00:00";
+
+    if (timer) {
+        timer.textContent = "00:00";
         timerInterval = setInterval(() => {
             secondsElapsed++;
             const minutes = String(Math.floor(secondsElapsed / 60)).padStart(2, "0");
             const seconds = String(secondsElapsed % 60).padStart(2, "0");
-            timerEl.textContent = `${minutes}:${seconds}`;
+            timer.textContent = `${minutes}:${seconds}`;
         }, 1000);
     }
 }
 
+
 if (form) {
     form.addEventListener("submit", (event) => {
         event.preventDefault();
-        
+
         console.log("aaa2")
         const numbersInput = document.getElementById("numbers");
         const hintsInput = document.getElementById("hints");
@@ -45,9 +53,9 @@ if (form) {
 
 
         let game = generateGame(numbers, hints);
-        
+
         console.log(game);
-        gameDiv.className = "row justify-content-center" 
+        gameDiv.className = "row justify-content-center"
         gameDiv.innerHTML = "";
         for (const ruleObj of game.rules) {
             gameDiv.innerHTML += Card(
@@ -58,10 +66,20 @@ if (form) {
             );
         }
         answerDiv.innerHTML = ""
-        answerDiv.appendChild( AnswerForm(game.answer, game.rules.length))
+        answerDiv.appendChild(AnswerForm(game.answer, game.rules.length, (score) => {
+            stopTimer();
+            gameDiv.innerHTML = ""
+            gameDiv.appendChild(ScoreSubmissionForm(score, (score) => {
+                saveScore(score)
+                window.location.href = `scoreboard?ndigits=${score.answer.length}`
+            }))
+            const cardHeader = document.getElementById("card-header")
+            cardHeader.textContent = "Victory!"
+            answerDiv.innerHTML = ""
+        }))
         startTimer()
         form.innerHTML = ""
-        
+
 
     });
 }
