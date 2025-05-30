@@ -12,6 +12,21 @@ export function saveScore(score) {
     scores.push(score);
     localStorage.setItem("numberDetectiveScores", JSON.stringify(scores));
 }
+
+export function deleteScore(score){
+    let scores = retrieveScores()
+    scores = scores.filter(o => o.date != score.date)
+    localStorage.setItem("numberDetectiveScores", JSON.stringify(scores));
+}
+
+export function deleteLeaderboard(scores){
+    scores.map(score => deleteScore(score))
+}
+
+export function clearScores(){
+    localStorage.setItem("numberDetectiveScores", []);
+}
+
 export function retrieveScores(){
     const scores = JSON.parse(localStorage.getItem("numberDetectiveScores") || "[]");
     return scores

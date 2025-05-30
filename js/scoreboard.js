@@ -1,13 +1,21 @@
-import { Navbar,setCurrentPage } from "../components/navbar.js";
+import { Navbar, setCurrentPage } from "../components/navbar.js";
 import { Scoreboard } from "../components/scoreboard.js";
-setCurrentPage("Scoreboard")
+setCurrentPage("Scoreboard");
+
+document.querySelector("navbar").innerHTML = Navbar();
 
 
-document.querySelector("navbar").innerHTML = Navbar()
-document.querySelector("scoreboard").innerHTML = Scoreboard()
+const scoreboardWrapper = document.querySelector("scoreboard");
+function refreshScoreboard() {
+  scoreboardWrapper.innerHTML = "";
+  scoreboardWrapper.appendChild(Scoreboard(refreshScoreboard));
+}
 
+refreshScoreboard();
 
+const params = new URLSearchParams(window.location.search);
 const ndigits = params.get("ndigits");
+
 if (ndigits && document.getElementById(`scoreboard-${ndigits}`)) {
-    document.getElementById(`scoreboard-${ndigits}`).scrollIntoView({ behavior: "smooth" });
+  document.getElementById(`scoreboard-${ndigits}`).scrollIntoView({ behavior: "smooth" });
 }

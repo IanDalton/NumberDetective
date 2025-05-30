@@ -72,7 +72,8 @@ export function AnswerForm(answer, numHints, onVictory) {
             const oldAlert = form.querySelector(".alert-danger");
             if (oldAlert) oldAlert.remove();
             const alert = document.createElement("div");
-            alert.className = "alert alert-danger";
+            alert.className = "alert alert-danger mt-4";
+            
             alert.role = "alert";
             alert.textContent = "Wrong answer, try again!";
             form.insertBefore(alert, button);
