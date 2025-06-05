@@ -1,11 +1,11 @@
-import { retrieveSortedScores, deleteScore,deleteLeaderboard } from "../core/storage.js";
+import { retrieveSortedScores, deleteScore, deleteLeaderboard, clearScores } from "../core/storage.js";
 
 //TODO: Add warning popup
 
 
 function ScoreRow(score, index, refresh) {
     const tr = document.createElement("tr")
-    tr.innerHTML =  `
+    tr.innerHTML = `
     
       <td>${index + 1}</td>
       <td>${score.player}</td>
@@ -24,20 +24,26 @@ function ScoreRow(score, index, refresh) {
       </td>
   `
 
-  const button = tr.querySelector("button")
-  button.addEventListener("click", ()=>{
-    deleteScore(score)
-    refresh()
-  })
-  return tr
+    const button = tr.querySelector("button")
+    
+        button.addEventListener("click", async () => {
+            const confirmed = await ConfirmModal("Are you sure you want to delete this score?");
+            if (confirmed) {
+                deleteScore(score);
+                refresh();
+            }
+        });
+
+  
+    return tr
 }
 
 
 function ScoreTable(scores, ndigits, refresh) {
     const div = document.createElement("div")
-    
+
     div.className = "card shadow rounded-4 mb-4"
-    div.innerHTML =  `
+    div.innerHTML = `
         <div class="card-header bg-success text-white fs-5 fw-bold w-100 rounded-top-4 d-flex justify-content-between align-items-center">
             <h3 class="mb-0 fs-5">Scores - ${ndigits} digits</h3>
             <button type="button" class="btn btn-danger">Delete</button>
@@ -69,25 +75,114 @@ function ScoreTable(scores, ndigits, refresh) {
         </div>
     `
     const button = div.querySelector("button")
-    button.addEventListener("click",()=>{
-        deleteLeaderboard(scores)
-        refresh()
-    })
+    button.addEventListener("click", async () => {
+        const confirmed = await ConfirmModal("Are you sure you want to delete this table?");
+            if (confirmed) {
+                deleteLeaderboard(scores)
+                refresh();
+            }
+        
+          })
     const tbody = div.querySelector("tbody")
     scores.map((s, i) => {
-        tbody.appendChild(ScoreRow(s,i,refresh))
+        tbody.appendChild(ScoreRow(s, i, refresh))
     })
     return div
+}
+
+function clearDB(refresh) {
+    const div = document.createElement("div")
+    div.className = "d-flex justify-content-center my-4" // Center + margin
+
+    const button = document.createElement("button")
+    button.addEventListener("click", async () => {
+        const confirmed = await ConfirmModal("Are you sure you want to delete ALL SCORES?");
+            if (confirmed) {
+                clearDB()
+                refresh();
+            }
+        
+          })
+    button.className = "btn btn-danger"
+    button.textContent = "Delete all scores"
+
+    div.appendChild(button)
+    return div
+}
+
+function VerificationModal(message) {
+    const modalDiv = document.createElement("div");
+    modalDiv.className = "modal fade";
+    modalDiv.tabIndex = -1;
+    modalDiv.setAttribute("aria-hidden", "true");
+
+    modalDiv.innerHTML = `
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Confirm Delete</h5>
+          <button type="button" class="btn-close" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <p>${message}</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+          <button type="button" class="btn btn-danger">Confirm</button>
+        </div>
+      </div>
+    </div>
+  `;
+
+    document.body.appendChild(modalDiv);
+
+    // Bootstrap 5 modal instance
+    const modal = new bootstrap.Modal(modalDiv, { backdrop: 'static', keyboard: false });
+
+    return { modalDiv, modal };
+}
+
+function ConfirmModal(message) {
+    return new Promise((resolve) => {
+        const { modalDiv, modal } = VerificationModal(message);
+
+        const confirmBtn = modalDiv.querySelector(".btn-danger");
+        const cancelBtn = modalDiv.querySelector(".btn-secondary");
+        const closeBtn = modalDiv.querySelector(".btn-close");
+
+        function cleanup() {
+            modal.hide();
+            modalDiv.remove();
+        }
+
+        confirmBtn.onclick = () => {
+            cleanup();
+            resolve(true);
+        };
+
+        cancelBtn.onclick = () => {
+            cleanup();
+            resolve(false);
+        };
+
+        closeBtn.onclick = () => {
+            cleanup();
+            resolve(false);
+        };
+
+        modal.show();
+    });
 }
 
 
 export function Scoreboard(refresh) {
     const grouped = retrieveSortedScores();
     const digitSections = Object.keys(grouped);
-    
+
     const container = document.createElement("div")
-    container.className = "container mt-4"
-    container.innerHTML= "<h2>Scoreboard</h2>"
-    digitSections.map(ndigits => container.appendChild( ScoreTable(grouped[ndigits],ndigits,refresh)))
+    container.className = "container mt-4 dflex "
+    container.innerHTML = "<h2>Scoreboard</h2>"
+    digitSections.map(ndigits => container.appendChild(ScoreTable(grouped[ndigits], ndigits, refresh)))
+    container.appendChild(clearDB(refresh))
     return container
 }

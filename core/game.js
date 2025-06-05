@@ -20,7 +20,7 @@ function generateRule(correct, misplaced) {
     if (correct > 0) hint += correct + " digit(s) are correct and in the right place.";
     if (correct > 0 && misplaced > 0) hint += " ";
     if (misplaced > 0) hint += misplaced + " digit(s) are correct but misplaced.";
-    return hint === "" ? "No digits are correct." : hint;
+    return hint === "" ? "No digits are correct. Not even close." : hint;
 }
 
 function evaluateDigit(digit, hints) {
