@@ -13,6 +13,10 @@ export function saveScore(score) {
     localStorage.setItem("numberDetectiveScores", JSON.stringify(scores));
 }
 
+export function saveScores(scores) {
+    localStorage.setItem("numberDetectiveScores", JSON.stringify(scores));
+}
+
 export function deleteScore(score){
     let scores = retrieveScores()
     scores = scores.filter(o => o.date != score.date)
@@ -30,6 +34,17 @@ export function clearScores(){
 export function retrieveScores(){
     const scores = JSON.parse(localStorage.getItem("numberDetectiveScores") || "[]");
     return scores
+}
+
+export function updateScore(updatedScore) {
+
+  const allScores = retrieveScores();
+  const idx = allScores.findIndex(s => s.date === updatedScore.date);
+  if (idx === -1) return;
+
+  allScores[idx] = updatedScore;
+
+  saveScores(allScores);
 }
 
 export function retrieveSortedScores(){

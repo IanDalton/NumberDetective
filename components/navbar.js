@@ -7,10 +7,13 @@ export const NAVBAR_PAGES = [
     {
         name: "Scoreboard",
         href: "scoreboard",
-        dropdown: digits.map((digit) => ({
-            name: `${digit} digits`,
-            href: `scoreboard?ndigits=${digit}`
-        }))
+
+        ...(digits.length > 0 && {
+            dropdown: digits.map((digit) => ({
+                name: `${digit} digits`,
+                href: `scoreboard?ndigits=${digit}`
+            }))
+        })
 
     }
 ];
