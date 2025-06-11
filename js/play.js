@@ -40,7 +40,6 @@ if (form) {
     form.addEventListener("submit", (event) => {
         event.preventDefault();
 
-        console.log("aaa2")
         const numbersInput = document.getElementById("numbers");
         const hintsInput = document.getElementById("hints");
         const gameDiv = document.getElementById("game");
@@ -54,7 +53,6 @@ if (form) {
 
         let game = generateGame(numbers, hints);
 
-        console.log(game);
         gameDiv.className = "row justify-content-center"
         gameDiv.innerHTML = "";
         for (const ruleObj of game.rules) {
