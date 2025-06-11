@@ -1,5 +1,5 @@
-import { Navbar, setCurrentPage } from "../components/navbar.js";
-import { Scoreboard } from "../components/scoreboard.js";
+import { Navbar, setCurrentPage } from "components/navbar.js";
+import { Scoreboard } from "components/scoreboard.js";
 setCurrentPage("Scoreboard");
 
 document.querySelector("navbar").innerHTML = Navbar();

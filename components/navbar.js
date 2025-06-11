@@ -1,4 +1,4 @@
-import { retrieveSortedScores } from "../core/storage.js";
+import { retrieveSortedScores } from "core/storage.js";
 
 const digits = Object.keys(retrieveSortedScores());
 export const NAVBAR_PAGES = [

@@ -1,4 +1,3 @@
-import { saveScore } from "../core/storage.js";
 export function AnswerForm(answer, numHints, onVictory) {
     const n = answer.length;
     const form = document.createElement("form");
