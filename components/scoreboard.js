@@ -1,4 +1,4 @@
-import { retrieveSortedScores, deleteScore, deleteLeaderboard, clearScores, updateScore } from "core/storage.js";
+import { retrieveSortedScores, deleteScore, deleteLeaderboard, clearScores, updateScore } from "./core/storage.js";
 
 //TODO: Add warning popup
 

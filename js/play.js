@@ -1,10 +1,10 @@
-import { Navbar, setCurrentPage } from "components/navbar.js";
-import { Game } from "components/game.js";
-import { generateGame } from "core/game.js";
-import { AnswerForm } from "components/answer_form.js";
-import { Card } from "components/card.js";
-import { ScoreSubmissionForm } from "components/victory_screen.js";
-import { saveScore } from "core/storage.js";
+import { Navbar, setCurrentPage } from "./components/navbar.js";
+import { Game } from "./components/game.js";
+import { generateGame } from "./core/game.js";
+import { AnswerForm } from "./components/answer_form.js";
+import { Card } from "./components/card.js";
+import { ScoreSubmissionForm } from "./components/victory_screen.js";
+import { saveScore } from "./core/storage.js";
 setCurrentPage("Play")
 
 document.querySelector("navbar").innerHTML = Navbar()
