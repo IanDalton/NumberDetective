@@ -81,6 +81,7 @@ function ScoreRow(score, index, refresh) {
 
 function ScoreTable(scores, ndigits, refresh) {
     const div = document.createElement("div")
+    div.id = `scoreboard-${ndigits}`
 
     div.className = "card shadow rounded-4 mb-4"
     div.innerHTML = `
@@ -221,8 +222,9 @@ export function Scoreboard(refresh) {
 
     const container = document.createElement("div")
     container.className = "container mt-4 dflex "
+    
     container.innerHTML = "<h2>Scoreboard</h2>"
-    digitSections.map(ndigits => container.appendChild(ScoreTable(grouped[ndigits], ndigits, refresh)))
+    digitSections.map((ndigits) => container.appendChild(ScoreTable(grouped[ndigits], ndigits, refresh)))
     if (digitSections.length > 0){
     container.appendChild(clearDB(refresh))
 } else {

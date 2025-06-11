@@ -2,7 +2,11 @@ import { Navbar, setCurrentPage } from "./components/navbar.js";
 import { Scoreboard } from "./components/scoreboard.js";
 setCurrentPage("Scoreboard");
 
-document.querySelector("navbar").innerHTML = Navbar();
+const nav = document.querySelector("navbar")
+nav.innerHTML = Navbar();
+
+
+
 
 
 const scoreboardWrapper = document.querySelector("scoreboard");

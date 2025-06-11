@@ -1,6 +1,5 @@
 body {
     background-color: #f8f9fa;
-    /* Light gray background */
     display: flex;
     justify-content: center;
     align-items: center;
@@ -17,15 +16,12 @@ body {
     height: 100%;
     box-shadow: 0 4px 15px 15px rgba(0, 0, 0, 0.2);
 
-    background-image: url('/images/background.jpg');
-    /* Replace with your actual image URL */
+    background-image: url('../images/background.jpg');
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
     filter: blur(8px);
-    /* Apply blur effect to the image */
     z-index: -1;
-    /* Place the image behind the content */
 }
 
 .welcome-container {
