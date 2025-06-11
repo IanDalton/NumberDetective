@@ -1,4 +1,4 @@
-import { retrieveSortedScores, deleteScore, deleteLeaderboard, clearScores, updateScore } from "./core/storage.js";
+import { retrieveSortedScores, deleteScore, deleteLeaderboard, clearScores, updateScore } from "../core/storage.js";
 
 //TODO: Add warning popup
 
@@ -138,7 +138,7 @@ function clearDB(refresh) {
     button.addEventListener("click", async () => {
         const confirmed = await ConfirmModal("Are you sure you want to delete ALL SCORES?");
         if (confirmed) {
-            clearDB()
+            clearScores()
             refresh();
         }
 
