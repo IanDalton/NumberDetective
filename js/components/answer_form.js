@@ -16,7 +16,8 @@ export function AnswerForm(answer, numHints, onVictory) {
     const inputs = [];
     for (let i = 1; i <= n; i++) {
         const input = document.createElement("input");
-        input.type = "text";
+        input.type = "tel";
+        input.pattern = "[0-9]*";
         input.maxLength = 1;
         input.className = "form-control text-center";
         input.id = `answer${i}`;
